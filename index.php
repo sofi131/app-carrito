@@ -23,10 +23,14 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <?php
-    // Mostrar los resultados
-    foreach ($resultados as $product) {
-        echo '<div class="card" style="width: 18rem;">
+    <div class="container contenedor-productos row">
+
+        <h3>Productos</h3>
+
+        <?php
+        // Mostrar los resultados
+        foreach ($resultados as $product) {
+            echo '<div class="card" style="width: 18rem;">
         <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
         <div class="card-body">
         <div class="producto-detalle">
@@ -44,9 +48,9 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
           </div>
         </div>
       </div>';
-    }
-    ?>
-<input type="number" name="" id="">
+        }
+        ?>
+    </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
