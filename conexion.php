@@ -9,9 +9,9 @@ $password = DB_PASSWORD;
 
 try {
     // Crear una instancia de PDO
-    $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
     // Establecer el modo de error a excepciones
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Salida si la conexión es exitosa
     echo "Conexión exitosa a la base de datos '$database'";

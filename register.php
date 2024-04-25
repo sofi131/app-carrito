@@ -1,18 +1,16 @@
 <?php
-
-if (isset($_POST["username"])) {
-
+if(isset($_POST["username"])){
     include("conexion.php");
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $email = $_POST["email"];
+    $username=$_POST["username"];
+    $password=$_POST["password"];
+    $email=$_POST["email"];
     // Procesar la imagen
     $image = $_FILES["file"]["name"];
     $target_dir = "assets/img/";
     $target_file = $target_dir . basename($_FILES["file"]["name"]);
 
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
+    
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -55,24 +53,24 @@ if (isset($_POST["username"])) {
         // Si todo está bien, intenta subir el archivo
     } else {
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-        }
-        $sql = "insert into user (username, email, password, image) values (?,?,?,?)";
-        $stm = $conn->prepare($sql);
-        // Vincular los parámetros
-        $stm->bindParam(1, $username);
-        $stm->bindParam(2, $email);
-        $stm->bindParam(3, $password);
-        $stm->bindParam(4, $image);
-        $stm->execute();
-        if ($stm->rowCount() > 0) {
-            $msg = "Usuario creado correctamente";
-        } else {
-            $msg = "Error al crear el usuario";
+            $sql="insert into user (username,email,password,image) values (?,?,?,?)";
+            $stm=$conn->prepare($sql);
+            $stm->bindParam(1,$username);
+            $stm->bindParam(2,$email);
+            $stm->bindParam(3,$password);
+            $stm->bindParam(4,$image);
+            $stm->execute();
+            if($stm->rowCount()>0){
+                $msg="Usuario creado correctamente";
+            }else{
+                $msg="Error al crear el Usuario";
+            }
+
         }
     }
+
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,19 +80,16 @@ if (isset($_POST["username"])) {
 </head>
 <body>
     <form action="" method="post" enctype="multipart/form-data">
-
         <input type="text" name="username" id="" placeholder="username">
-        <input type="email" name="email" id="" placeholder="email">
-        <input type="password" name="password" id="" placeholder="password">
+        <input type="email" name="email" placeholder="email">
+        <input type="password" name="password" placeholder="password">
         <input type="file" name="file" id="">
         <button type="submit">New</button>
-
     </form>
     <?php
-    if (isset($msg)) {
-        echo "<p>" . $msg . "</p>";
+    if(isset($msg)){
+        echo "<p>".$msg."</p>";
     }
     ?>
 </body>
-
 </html>
