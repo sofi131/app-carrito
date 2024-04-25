@@ -11,3 +11,7 @@
 .add-to-cart{
     display: flex;
 }
+
+.product-card{
+    margin: 5px;
+}
