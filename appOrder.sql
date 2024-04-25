@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS `cart_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cart_details` (
-  `idcarddetails` int NOT NULL AUTO_INCREMENT,
+  `idcartdetails` int NOT NULL AUTO_INCREMENT,
   `idcart` int NOT NULL,
   `idproduct` int NOT NULL,
   `quantity` int DEFAULT NULL,
