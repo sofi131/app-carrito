@@ -1,5 +1,6 @@
 <?php
 require_once("conexion.php");
+
 $sql = "select * from product";
 $consulta = $conn->prepare($sql);
 // Ejecutar la consulta
@@ -24,13 +25,12 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
     <div class="container contenedor-productos row">
+    <h3>Productos</h3>
 
-        <h3>Productos</h3>
-
-        <?php
-        // Mostrar los resultados
-        foreach ($resultados as $product) {
-            echo '<div class="card product-card col-md-3 col-sm-12">
+    <?php
+    // Mostrar los resultados
+    foreach ($resultados as $product) {
+        echo '<div class="card productcard col-md-3 col-sm-12" ">
         <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
         <div class="card-body">
         <div class="producto-detalle">
@@ -42,21 +42,20 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
                 <h5 class="card-title">' . $product["price"] . '€/kg</h5>
             </div>
           </div>
-
-          <form actionn"add_to_cart.php" method="get">
-
+          <form action="add_to_cart.php" method="get">
           <div class="add-to-cart">
-            <input type="hidden" name="idproduct" value="'.$product["price"].'">
-            <input min=1 step=1 class="form-control" type="number" name="quantity" id="">
+            <input type="hidden" name="idproduct" value="'.$product["idproduct"].'">
+            <input min=1 step=1 class="form-control" type="number" name="quantity" id="" required >
             <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></button>
           </div>
           </form>
-
         </div>
       </div>';
-        }
-        ?>
-    </div>
+    }
+    ?>
+     </div>
+
+    
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

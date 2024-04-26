@@ -22,5 +22,7 @@ if (isset($_GET["idproduct"])) {
         var_dump($cart);
     }
 }
+header("Location: /");
+exit();
 
 ?>
