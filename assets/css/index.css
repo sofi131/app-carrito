@@ -19,3 +19,17 @@
 .card-img-top{
     border-radius: 5px;
 }
+.contenedor-productos{
+    margin: 0 auto;
+}
+.shop-cart{
+    text-align: right;
+}
+.shop-cart span{
+    border:1px solid blue;
+    padding: 5px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+}
