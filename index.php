@@ -30,7 +30,7 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
     <?php
     // Mostrar los resultados
     foreach ($resultados as $product) {
-        echo '<div class="card productcard col-md-3 col-sm-12" ">
+        echo '<div class="card product-card col-md-3 col-sm-12 mb-3">
         <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
         <div class="card-body">
         <div class="producto-detalle">
