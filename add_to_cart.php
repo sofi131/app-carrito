@@ -1,4 +1,5 @@
 <?php
+//guarda datos en el carrito de sesión
 include_once("./models/product.php");
 session_start();
 
@@ -17,6 +18,9 @@ if (isset($_GET["idproduct"])) {
             $cart = array();
         }
         array_push($cart, $product);
-        $_SESSION["cart"]=$cart;
+        $_SESSION["cart"] = $cart;
+        var_dump($cart);
     }
 }
+
+?>

@@ -42,10 +42,15 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
                 <h5 class="card-title">' . $product["price"] . '€/kg</h5>
             </div>
           </div>
+
+          <form actionn"add_to_cart.php" method="get">
+
           <div class="add-to-cart">
             <input min=1 step=1 class="form-control" type="number" name="" id="">
             <a href="#" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></a>
           </div>
+          </form>
+          
         </div>
       </div>';
         }
