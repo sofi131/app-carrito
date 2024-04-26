@@ -43,7 +43,7 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
             </div>
           </div>
           <div class="add-to-cart">
-            <input class="form-control" type="number" name="" id="">
+            <input min=1 step=1 class="form-control" type="number" name="" id="">
             <a href="#" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></a>
           </div>
         </div>
