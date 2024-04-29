@@ -1,6 +1,7 @@
 $("#cart").click((e)=>{
-    e.preventDefault();
+    
     if($("#user").html()==""){
+        e.preventDefault();
         //Hay que loguearse
         $("#modal-login").modal("show");
     }
