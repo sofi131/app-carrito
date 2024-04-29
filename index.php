@@ -9,8 +9,9 @@ $consulta->execute();
 // Obtener los resultados
 $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
 //Compruebo si hay carrito
-if (isset($_SESSION["user"])) {
+if (isset($_SESSION["username"])) {
     //comprobaria si hay carrito en la bbdd
+    $user=$_SESSION["username"];
 } else {
     if (isset($_SESSION["cart"])) {
         $cart = $_SESSION["cart"];
@@ -54,7 +55,7 @@ if (isset($_SESSION["user"])) {
                         <a class="nav-link" href="#">Contacto</a>
                     </li>
                 </ul>
-                <span id="user"></span>
+                <span id="user"><?php if (isset($user)) echo $user; ?></span>
             </div>
         </div>
     </nav>
