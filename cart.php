@@ -107,7 +107,8 @@ if (isset($_SESSION["username"])) {
                     //para que calcule el total
                     $total=0;
                         foreach ($cart as $key => $product) {
-                            $total=$product->price*$product->quantity;
+                            //sumamos lo que ya teníamos
+                            $total+=$product->price*$product->quantity;
                             echo '<tr>
                             <th scope="row">'.$key.'</th>
                             <td><img class="img-cart" src="assets/product/'.$product->image.'" alt=""></td>
@@ -122,7 +123,9 @@ if (isset($_SESSION["username"])) {
                             <td>x</td>
                         </tr>';
                         }
-                        
+                        //lo vemos mañana (30/04)
+                        echo "<tr><td span=4>Total</td><td span=2>.$total.</td></tr>"
+
                     ?>
                 </tbody>
             </table>
