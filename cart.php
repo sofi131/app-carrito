@@ -32,4 +32,6 @@ if (isset($_SESSION["Username"])) {
     header("Location: ./");
     exit();
 }
+//deprueba
+echo $cart;
 ?>
