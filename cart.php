@@ -1,40 +1,38 @@
 <?php
 include_once("./models/product.php");
 session_start();
-if(isset($_SESSION["username"])){
+if (isset($_SESSION["username"])) {
     //nuevo
-    $user=$_SESSION["username"];
-  if(isset($_SESSION["cart"])){
-    //Existe usuario y carrito en session
-    $user=$_SESSION["username"];
-    $cart=$_SESSION["cart"];
-    //Consultamos información de los productos a la bbdd
-    require_once("conexion.php");
-     //recorremos el array de artículos que hay en el carrito
-    foreach ($cart as $product) {
-        # consulta
-        $sql="select * from product where idproduct=?";
-        $stm=$conn->prepare($sql);
-        $stm->bindParam(1,$product->idproduct);
-        $stm->execute();
-        //Comprobamos si hay algún registro - esto es un bucle
-        if($stm->rowCount()>0){
-            $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-            $product->name=$result[0]["name"];
-            $product->description=$result[0]["description"];
-            $product->price=$result[0]["price"];
-            $product->image=$result[0]["image"];
+    $user = $_SESSION["username"];
+    if (isset($_SESSION["cart"])) {
+        //Existe usuario y carrito en session
+        $user = $_SESSION["username"];
+        $cart = $_SESSION["cart"];
+        //Consultamos información de los productos a la bbdd
+        require_once("conexion.php");
+        //recorremos el array de artículos que hay en el carrito
+        foreach ($cart as $product) {
+            # consulta
+            $sql = "select * from product where idproduct=?";
+            $stm = $conn->prepare($sql);
+            $stm->bindParam(1, $product->idproduct);
+            $stm->execute();
+            //Comprobamos si hay algún registro - esto es un bucle
+            if ($stm->rowCount() > 0) {
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                $product->name = $result[0]["name"];
+                $product->description = $result[0]["description"];
+                $product->price = $result[0]["price"];
+                $product->image = $result[0]["image"];
+            }
         }
-
+    } else {
+        header("Location: ./");
+        exit();
     }
-
-  }else{
+} else {
     header("Location: ./");
     exit();
-  }
-}else{
-     header("Location: ./");
-     exit();
 }
 
 //var_dump($cart); -> ya no nos hace falta
@@ -88,8 +86,43 @@ if(isset($_SESSION["username"])){
             <a class="nav-link" href="cart"><span><i class="fas fa-shopping-cart"></i><?php echo isset($cart) ? count($cart) : ''; ?> </span></a>
         </div>
         <h3>Carrito</h3>
+        <!--tabla de bootstrap-->
 
-        
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <!--esto lo rellenamos nosotros, el body-->
+                <tbody>
+                    <?php
+                        foreach ($cart as $key => $product) {
+                            echo '<tr>
+                            <th scope="row">'.$key.'</th>
+                            <td><img class="img-cart" src="assets/product/'.$product->image.'" alt=""></td>
+                            <td>
+                                <h6>'.$product->name.'</h6>
+                                <p>'.$product->description.'</p>
+                            </td>
+                            <td><input type="number" name="" id="'.$product->quantity.'"></td>
+                            <td>'.$product->price.'</td>
+                            <td>'.$product->price*$product->quantity.'</td>
+                            <!--para eliminar-->
+                            <td>x</td>
+                        </tr>';
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
