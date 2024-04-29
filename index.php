@@ -93,6 +93,29 @@ if (isset($_SESSION["user"])) {
         }
         ?>
     </div>
+    <!--modal bootstrap 5.0-->
+    <div class="modal" tabindex="-1" id="modal-login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="login.php" method="post">
+                    <div class="modal-body">
+                        <h5>Para continuar comprando hay que iniciar sesión</h5>
+                        <hr>
+                        <input class="form-control email" type="email" name="email" id="" placeholder="email">
+                        <input class="form-control" type="password" name="password" id="" placeholder="password">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Optional JavaScript; choose one of the two! -->
