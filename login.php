@@ -15,8 +15,10 @@ if (isset($_POST["email"])) {
         $username=$result[0]["username"];
         session_start();
         $_SESSION["username"]=$username;
-
+        //si se hizo bien, va a index
+        header("Location: ./");
+        exit();
     } else {
-
+        $error="Usuario o contraseña incorrecto";
     }
 }
