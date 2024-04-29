@@ -1,0 +1,4 @@
+$("#cart").click(()=>{
+
+    alert("hola");
+});
