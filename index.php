@@ -105,12 +105,12 @@ if (isset($_SESSION["user"])) {
                     <div class="modal-body">
                         <h5>Para continuar comprando hay que iniciar sesión</h5>
                         <hr>
-                        <input class="form-control email" type="email" name="email" id="" placeholder="email">
-                        <input class="form-control" type="password" name="password" id="" placeholder="password">
+                        <input class="form-control email" type="email" name="email" id="" placeholder="email" required>
+                        <input class="form-control" type="password" name="password" id="" placeholder="password" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                 </form>
             </div>
