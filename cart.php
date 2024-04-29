@@ -104,7 +104,10 @@ if (isset($_SESSION["username"])) {
                 <!--esto lo rellenamos nosotros, el body-->
                 <tbody>
                     <?php
+                    //para que calcule el total
+                    $total=0;
                         foreach ($cart as $key => $product) {
+                            $total=$product->price*$product->quantity;
                             echo '<tr>
                             <th scope="row">'.$key.'</th>
                             <td><img class="img-cart" src="assets/product/'.$product->image.'" alt=""></td>
@@ -119,6 +122,7 @@ if (isset($_SESSION["username"])) {
                             <td>x</td>
                         </tr>';
                         }
+                        
                     ?>
                 </tbody>
             </table>
