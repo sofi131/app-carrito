@@ -1,4 +1,6 @@
 $("#cart").click(()=>{
 
-    alert("hola");
+    if($("#user").html()==""){
+        //Hay que loguearse
+    }
 });

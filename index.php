@@ -53,8 +53,8 @@ if (isset($_SESSION["user"])) {
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contacto</a>
                     </li>
-
                 </ul>
+                <span id="user"></span>
             </div>
         </div>
     </nav>
