@@ -26,16 +26,27 @@ if (isset($_SESSION["username"])) {
                 $product->image = $result[0]["image"];
             }
         }
-        //guardamos el carrito en la bd
-        $sql = "insert into cart (iduser) value (?)";
-        $stm = $conn->prepare($sql);
-        $stm->bindParam(1, $iduser);
+        //creamos idcart
+        if (isset($_SESSION["idcart"])) {
+            $idcart = $_SESSION["idcart"];
+        } else {
+            //guardamos el carrito en la bd
+            $sql = "insert into cart (iduser) value (?)";
+            $stm = $conn->prepare($sql);
+            $stm->bindParam(1, $iduser);
+            $stm->execute();
+            $idcart = $conn->lastInsertId();
+            $_SESSION["idcart"] = $idcart;
+        }
+        //borramos la tabla cart_detail
+        $sql = "delete from cart_detail where idcart=" . $idcart;
+        $stm = $conn->prepare(($sql));
         $stm->execute();
-        $idcart = $conn->lastInsertId();
+        //Insertamos los productos en cart_detail
         foreach ($cart as $key => $product) {
             //insert en la bd por cada producto que haya en el carrito
             $sql = "insert into cart_detail (idcart, idproduct, quantity, price) values (?,?,?,?)";
-            $stm=$conn->prepare($sql);
+            $stm = $conn->prepare($sql);
             $stm->bindParam(1, $idcart);
             $stm->bindParam(2, $product->idproduct);
             $stm->bindParam(3, $product->iquantity);
