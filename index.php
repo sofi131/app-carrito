@@ -55,6 +55,7 @@ if (isset($_SESSION["username"])) {
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Mi Tienda</a>
@@ -83,6 +84,7 @@ if (isset($_SESSION["username"])) {
     <div class="container contenedor-productos row">
         <div class="shop-cart" id="cart">
             <a class="nav-link" href="cart"><span><i class="fas fa-shopping-cart"></i><?php echo isset($cart) ? count($cart) : ''; ?> </span></a>
+            <?php echo isset($_SESSION["idcart"]) ? $_SESSION["idcart"] : "nada" ?>
         </div>
         <h3>Productos</h3>
 
@@ -90,30 +92,32 @@ if (isset($_SESSION["username"])) {
         // Mostrar los resultados
         foreach ($resultados as $product) {
             echo '<div class="card productcard col-md-3 col-sm-12" ">
-    <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
-    <div class="card-body">
-    <div class="producto-detalle">
-        <div>  
-            <h5 class="card-title">' . $product["name"] . '</h5>
-            <p class="card-text">' . $product["description"] . '</p>
+        <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
+        <div class="card-body">
+        <div class="producto-detalle">
+            <div>  
+                <h5 class="card-title">' . $product["name"] . '</h5>
+                <p class="card-text">' . $product["description"] . '</p>
+            </div>
+            <div>
+                <h5 class="card-title">' . $product["price"] . '€/kg</h5>
+            </div>
+          </div>
+          <form action="add_to_cart.php" method="get">
+          <div class="add-to-cart">
+            <input type="hidden" name="idcart" value="' . $idcart . '">
+            <input type="hidden" name="price" value="' . $product["price"] . '">
+            <input type="hidden" name="idproduct" value="' . $product["idproduct"] . '">
+            <input min=1 step=1 class="form-control" type="number" name="quantity" id="" required >
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></button>
+          </div>
+          </form>
         </div>
-        <div>
-            <h5 class="card-title">' . $product["price"] . '€/kg</h5>
-        </div>
-      </div>
-      <form action="add_to_cart.php" method="get">
-      <div class="add-to-cart">
-        <input type="hidden" name="idproduct" value="' . $product["idproduct"] . '">
-        <input min=1 step=1 class="form-control" type="number" name="quantity" id="" required >
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></button>
-      </div>
-      </form>
-    </div>
-  </div>';
+      </div>';
         }
         ?>
     </div>
-<!------------------------------------------------modal-------------------------------------------------->
+
     <div class="modal" tabindex="-1" id="modal-login">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -144,9 +148,9 @@ if (isset($_SESSION["username"])) {
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
--->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="./assets/js/product.js"></script>
 
