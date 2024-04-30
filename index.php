@@ -19,23 +19,23 @@ if (isset($_SESSION["username"])) {
     //para saber si un usuario tiene sesión
     $iduser = $_SESSION["iduser"];
     //--------------------------------------CONSULTA--------------------------
-    if (!isset($cart)) {
-        $sql = "SELECT * FROM cart C 
-        left join cart_detail D on C.idcart=D.idcart 
-        where iduser=? order by date desc limit 1;";
-        $stm = $conn->prepare($sql);
-        $stm->bindParam(1, $iduser);
+    if(! isset($cart)){
+        $sql="select * from cart_detail where 
+        idcart=(select idcart from cart where iduser=? 
+        order by date desc limit 1)";
+        $stm=$conn->prepare($sql);
+        $stm->bindParam(1,$iduser);
         $stm->execute();
-        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($result as $key => $product) {
-            $product = new Product($p["idproduct"], $p["quantity"]);
-            array_push($cart, $product);
+        $result=$stm->fetchAll(PDO::FETCH_ASSOC);
+        $cart=array();
+        foreach ($result as $key => $p) {
+            $product=new Product($p["idproduct"],$p["quantity"]);
+            array_push($cart,$product);
         }
-        $_SESSION["cart"] = $cart;
-        $_SESSION["idcart"] = $result[0]["idcart"];
+        $_SESSION["cart"]=$cart;
+        $_SESSION["idcart"]=$result[0]["idcart"];
     }
 }
-
 
 
 ?>
@@ -113,7 +113,7 @@ if (isset($_SESSION["username"])) {
         }
         ?>
     </div>
-
+<!--modal-->
     <div class="modal" tabindex="-1" id="modal-login">
         <div class="modal-dialog">
             <div class="modal-content">
