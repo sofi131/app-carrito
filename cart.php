@@ -49,9 +49,11 @@ if (isset($_SESSION["username"])) {
             $stm = $conn->prepare($sql);
             $stm->bindParam(1, $idcart);
             $stm->bindParam(2, $product->idproduct);
-            $stm->bindParam(3, $product->iquantity);
-            $stm->bindParam(4, $product->iprice);
+            $stm->bindParam(3, $product->quantity);
+            $stm->bindParam(4, $product->price);
             $stm->execute();
+            $idcartdetail = $conn->lastInsertId();
+            $product->$idcartdetail = $idcartdetail;
         }
     } else {
         header("Location: ./");
@@ -143,7 +145,8 @@ if (isset($_SESSION["username"])) {
                             <td><input type="number" name="" id="" value="' . $product->quantity . '"></td>
                             <td>' . $product->price . ' €/kg</td>
                             <td>' . $product->price * $product->quantity . ' €</td>
-                            <td>x</td>
+
+                            <td><span id="idcartdetail'.$product->$idcartdetail.'">x</span></td>
                         </tr>';
                     }
                     echo "<tr><td class='importe_total'  colspan='5'>Total:</td><td class='euros_total' colspan='2'>" . $total . " €</td></tr>"
