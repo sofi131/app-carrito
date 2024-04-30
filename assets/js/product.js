@@ -1,3 +1,4 @@
+//la modal
 $("#cart").click((e)=>{
     
     if($("#user").html()==""){
@@ -6,3 +7,7 @@ $("#cart").click((e)=>{
         $("#modal-login").modal("show");
     }
 });
+//pa que clique y borré
+$(".quantity").keyup((e)=>{
+    alert(e.currrentTarget.value);
+})

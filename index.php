@@ -113,7 +113,7 @@ if (isset($_SESSION["username"])) {
         }
         ?>
     </div>
-<!--modal-->
+<!------------------------------------------------modal-------------------------------------------------->
     <div class="modal" tabindex="-1" id="modal-login">
         <div class="modal-dialog">
             <div class="modal-content">

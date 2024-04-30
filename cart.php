@@ -142,7 +142,7 @@ if (isset($_SESSION["username"])) {
                                 <h6>' . $product->name . '</h6>
                                 <p>' . $product->description . '</p>
                             </td>
-                            <td><input type="number" name="" id="" value="' . $product->quantity . '"></td>
+                            <td><input class="quantity" type="number" name="" id="" value="' . $product->quantity . '"></td>
                             <td>' . $product->price . ' €/kg</td>
                             <td>' . $product->price * $product->quantity . ' €</td>
 
