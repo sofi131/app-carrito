@@ -43,3 +43,11 @@
     width: 200px;
     height: auto;
 }
+.importe_total{
+    text-align: right;
+    font-weight: bold;
+}
+.euros_total{
+    text-align: center;
+    font-weight: bold;
+}

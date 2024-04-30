@@ -2,7 +2,6 @@
 include_once("./models/product.php");
 session_start();
 if (isset($_SESSION["username"])) {
-    //nuevo
     $user = $_SESSION["username"];
     if (isset($_SESSION["cart"])) {
         //Existe usuario y carrito en session
@@ -10,7 +9,6 @@ if (isset($_SESSION["username"])) {
         $cart = $_SESSION["cart"];
         //Consultamos información de los productos a la bbdd
         require_once("conexion.php");
-        //recorremos el array de artículos que hay en el carrito
         foreach ($cart as $product) {
             # consulta
             $sql = "select * from product where idproduct=?";
@@ -36,7 +34,6 @@ if (isset($_SESSION["username"])) {
 }
 
 //var_dump($cart); -> ya no nos hace falta
-
 ?>
 <!--Pegamos los estilos de index.php, el html -->
 <!doctype html>
@@ -87,7 +84,6 @@ if (isset($_SESSION["username"])) {
         </div>
         <h3>Carrito</h3>
         <!--tabla de bootstrap-->
-
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -105,32 +101,29 @@ if (isset($_SESSION["username"])) {
                 <tbody>
                     <?php
                     //para que calcule el total
-                    $total=0;
-                        foreach ($cart as $key => $product) {
-                            //sumamos lo que ya teníamos
-                            $total+=$product->price*$product->quantity;
-                            echo '<tr>
-                            <th scope="row">'.$key.'</th>
-                            <td><img class="img-cart" src="assets/product/'.$product->image.'" alt=""></td>
+                    $total = 0;
+                    foreach ($cart as $key => $product) {
+                        $total += $product->price * $product->quantity;
+                        echo '<tr>
+                            <th scope="row">' . $key . '</th>
+                            <td><img class="img-cart" src="assets/product/' . $product->image . '" alt="" srcset=""></td>
                             <td>
-                                <h6>'.$product->name.'</h6>
-                                <p>'.$product->description.'</p>
+                                <h6>' . $product->name . '</h6>
+                                <p>' . $product->description . '</p>
                             </td>
-                            <td><input type="number" name="" id="'.$product->quantity.'"></td>
-                            <td>'.$product->price.'</td>
-                            <td>'.$product->price*$product->quantity.'</td>
-                            <!--para eliminar-->
+                            <td><input type="number" name="" id="" value="' . $product->quantity . '"></td>
+                            <td>' . $product->price . ' €/kg</td>
+                            <td>' . $product->price * $product->quantity . ' €</td>
                             <td>x</td>
                         </tr>';
-                        }
-                        //lo vemos mañana (30/04)
-                        echo "<tr><td span=4>Total</td><td span=2>.$total.</td></tr>"
-
+                    }
+                    echo "<tr><td class='importe_total'  colspan='5'>Total:</td><td class='euros_total' colspan='2'>" . $total . " €</td></tr>"
                     ?>
                 </tbody>
             </table>
         </div>
     </div>
+
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
