@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("conexion.php");
+include_once("./models/product.php");
 
 $sql = "select * from product";
 $consulta = $conn->prepare($sql);
@@ -9,13 +10,33 @@ $consulta->execute();
 // Obtener los resultados
 $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
 //Compruebo si hay carrito
-if (isset($_SESSION["username"])) {
-    //comprobaria si hay carrito en la bbdd
-    $user = $_SESSION["username"];
-}
 if (isset($_SESSION["cart"])) {
     $cart = $_SESSION["cart"];
 }
+if (isset($_SESSION["username"])) {
+    //comprobaria si hay carrito en la bbdd
+    $user = $_SESSION["username"];
+    //para saber si un usuario tiene sesión
+    $iduser = $_SESSION["iduser"];
+    //--------------------------------------CONSULTA--------------------------
+    if (!isset($cart)) {
+        $sql = "SELECT * FROM cart C 
+        left join cart_detail D on C.idcart=D.idcart 
+        where iduser=? order by date desc limit 1;";
+        $stm = $conn->prepare($sql);
+        $stm->bindParam(1, $iduser);
+        $stm->execute();
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $key => $product) {
+            $product = new Product($p["idproduct"], $p["quantity"]);
+            array_push($cart, $product);
+        }
+        $_SESSION["cart"] = $cart;
+        $_SESSION["idcart"] = $result[0]["idcart"];
+    }
+}
+
+
 
 ?>
 <!doctype html>
@@ -34,7 +55,6 @@ if (isset($_SESSION["cart"])) {
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Mi Tienda</a>
@@ -70,26 +90,26 @@ if (isset($_SESSION["cart"])) {
         // Mostrar los resultados
         foreach ($resultados as $product) {
             echo '<div class="card productcard col-md-3 col-sm-12" ">
-        <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
-        <div class="card-body">
-        <div class="producto-detalle">
-            <div>  
-                <h5 class="card-title">' . $product["name"] . '</h5>
-                <p class="card-text">' . $product["description"] . '</p>
-            </div>
-            <div>
-                <h5 class="card-title">' . $product["price"] . '€/kg</h5>
-            </div>
-          </div>
-          <form action="add_to_cart.php" method="get">
-          <div class="add-to-cart">
-            <input type="hidden" name="idproduct" value="' . $product["idproduct"] . '">
-            <input min=1 step=1 class="form-control" type="number" name="quantity" id="" required >
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></button>
-          </div>
-          </form>
+    <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
+    <div class="card-body">
+    <div class="producto-detalle">
+        <div>  
+            <h5 class="card-title">' . $product["name"] . '</h5>
+            <p class="card-text">' . $product["description"] . '</p>
         </div>
-      </div>';
+        <div>
+            <h5 class="card-title">' . $product["price"] . '€/kg</h5>
+        </div>
+      </div>
+      <form action="add_to_cart.php" method="get">
+      <div class="add-to-cart">
+        <input type="hidden" name="idproduct" value="' . $product["idproduct"] . '">
+        <input min=1 step=1 class="form-control" type="number" name="quantity" id="" required >
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i></button>
+      </div>
+      </form>
+    </div>
+  </div>';
         }
         ?>
     </div>
@@ -124,9 +144,9 @@ if (isset($_SESSION["cart"])) {
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="./assets/js/product.js"></script>
 
