@@ -8,6 +8,10 @@ $("#cart").click((e)=>{
     }
 });
 //pa que clique y borré
-$(".quantity").keyup((e)=>{
-    alert(e.currrentTarget.value);
+$(".quantity").change((e)=>{
+    alert(e.currentTarget.value);
+});
+
+$(".delete").click((e)=>{
+
 })

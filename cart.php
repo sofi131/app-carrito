@@ -146,7 +146,7 @@ if (isset($_SESSION["username"])) {
                             <td>' . $product->price . ' €/kg</td>
                             <td>' . $product->price * $product->quantity . ' €</td>
 
-                            <td><span id="idcartdetail'.$product->idcartdetail.'">x</span></td>
+                            <td><span class="delete" id="idcartdetail'.$product->idcartdetail.'"><i class="fa-solid fa-x"></i></span></td>
                         </tr>';
                     }
                     echo "<tr><td class='importe_total'  colspan='5'>Total:</td><td class='euros_total' colspan='2'>" . $total . " €</td></tr>"
