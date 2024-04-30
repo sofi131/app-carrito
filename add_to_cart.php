@@ -18,6 +18,8 @@ if (isset($_GET["idproduct"])) {
             $stm->bindParam(2, $idproduct);
             $stm->bindParam(3, $quantity);
             $stm->bindParam(4, $price);
+            var_dump($stm);
+            exit();
             $stm->execute();
         }
     } else {
