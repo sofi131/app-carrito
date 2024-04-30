@@ -1,16 +1,18 @@
 <?php
 include_once("./models/product.php");
+//inicia sesión y ve si está logueado o no
 session_start();
 if (isset($_SESSION["username"])) {
     $user = $_SESSION["username"];
     if (isset($_SESSION["cart"])) {
-        //Existe usuario y carrito en session
+        //Existe usuario y carrito en session, ponemos el id usuario
         $user = $_SESSION["username"];
         $cart = $_SESSION["cart"];
+        $iduser = $_SESSION["iduser"];
         //Consultamos información de los productos a la bbdd
         require_once("conexion.php");
         foreach ($cart as $product) {
-            # consulta
+            # consulta -> recoge los datos de cada producto
             $sql = "select * from product where idproduct=?";
             $stm = $conn->prepare($sql);
             $stm->bindParam(1, $product->idproduct);
@@ -23,6 +25,22 @@ if (isset($_SESSION["username"])) {
                 $product->price = $result[0]["price"];
                 $product->image = $result[0]["image"];
             }
+        }
+        //guardamos el carrito en la bd
+        $sql = "insert into cart (iduser) value (?)";
+        $stm = $conn->prepare($sql);
+        $stm->bindParam(1, $iduser);
+        $stm->execute();
+        $idcart = $conn->lastInsertId();
+        foreach ($cart as $key => $product) {
+            //insert en la bd por cada producto que haya en el carrito
+            $sql = "insert into cart_detail (idcart, idproduct, quantity, price) values (?,?,?,?)";
+            $stm=$conn->prepare($sql);
+            $stm->bindParam(1, $idcart);
+            $stm->bindParam(2, $product->idproduct);
+            $stm->bindParam(3, $product->iquantity);
+            $stm->bindParam(4, $product->iprice);
+            $stm->execute();
         }
     } else {
         header("Location: ./");

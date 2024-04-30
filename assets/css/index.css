@@ -43,6 +43,7 @@
     width: 200px;
     height: auto;
 }
+/* la negrita del total*/
 .importe_total{
     text-align: right;
     font-weight: bold;

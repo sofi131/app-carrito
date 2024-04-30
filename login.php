@@ -12,10 +12,12 @@ if (isset($_POST["email"])) {
         if ($stm->rowCount() > 0) {
             //ACCEDER A MÉTODOS ESTÁTICOS DE CLASE (los 2 pts)
             $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-            //guardamos en sesión
+            //guardamos en sesión y idusuario
             $username = $result[0]["username"];
+            $iduser=$result[0]["iduser"];
             session_start();
             $_SESSION["username"] = $username;
+            $_SESSION["iduser"] = $iduser;
             //si se hizo bien, va a index
             header("Location: ./");
             exit();
