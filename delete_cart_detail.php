@@ -4,6 +4,9 @@
 $id=$_GET["idcartdetail"];
 include("conexion.php");
 $sql="delete from cart_detail where idcartdetail=?";
+$stm=$conn->prepare(($sql));
+$stm->bindParam(1,$idcartdetail);
+$stm->execute();
 
 
 $response = array(
