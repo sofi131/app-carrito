@@ -2,9 +2,9 @@
 //Proteger ejecución de script
 session_start();
 $idcartdetail = $_GET["idcartdetail"];
-$quantity = $_GET["idcartdetail"];
+$quantity = $_GET["quantity"];
 include("conexion.php");
-$sql = "update from cart_detail set quantity=? where idcartdetail=?";
+$sql = "update cart_detail set quantity=? where idcartdetail=?";
 $stm = $conn->prepare($sql);
 $stm->bindParam(1, $quantity);
 $stm->bindParam(2, $idcartdetail);
