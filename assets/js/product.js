@@ -1,33 +1,44 @@
-//la modal
-$("#cart").click((e) => {
+$("#cart").click(function (e) {
 
-    if ($("#user").html() == "") {
-        e.preventDefault();
-        //Hay que loguearse
-        $("#modal-login").modal("show");
-    }
-});
-//pa que clique y borré
+  if ($("#user").html() == "") {
+    e.preventDefault();
+    //Hay que logearse
+    $("#modal-login").modal("show");
+  }
+}
+
+);
+
 $(".quantity").change((e) => {
-    alert(e.currentTarget.value);
+  let quantity = e.currentTarget.value;
+
 });
 
-$(".delete").click((e)=>{
-  let fila=e.currentTarget.parentElement.parentElement;
-  let idcartdetail=(e.currentTarget.id).replace("idcartdetail","");
-  let url="delete_cart_detail.php?idcartdetail="+idcartdetail;
+$(".delete").click((e) => {
+  let fila = e.currentTarget.parentElement.parentElement;
+  let idcartdetail = (e.currentTarget.id).replace("idcartdetail", "");
+  let url = "delete_cart_detail.php?idcartdetail=" + idcartdetail;
   fetch(url)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data); // Aquí recibes los datos en formato JSON
-    // Puedes manipular los datos aquí
-    fila.remove();
-    let cart=data.cart;
-//aquí va el map
+    .then(response => response.json())
+    .then(data => {
+      //console.log(data); // Aquí recibes los datos en formato JSON
+      // Puedes manipular los datos aquí
+      fila.remove();
+      let cart = data.cart;
+      // Utilizamos map() para crear un nuevo array con los totales de cada producto
+      var totalesPorProducto = cart.map(function (producto) {
+        return producto.price * producto.quantity;
+      });
 
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
- 
+      // Sumamos todos los totales de los productos utilizando reduce()
+      var totalCart = totalesPorProducto.reduce(function (acumulador, total) {
+        return acumulador + total;
+      }, 0);
+      $("#euros_total").html(totalCart+" €");
+      $("#products_count").html(cart.length);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
 })

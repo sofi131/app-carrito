@@ -1,23 +1,20 @@
 <?php
 include_once("./models/product.php");
-//inicia sesión y ve si está logueado o no
 session_start();
 if (isset($_SESSION["username"])) {
     $user = $_SESSION["username"];
     if (isset($_SESSION["cart"])) {
-        //Existe usuario y carrito en session, ponemos el id usuario
+        //Existe usuario y carrito en session
         $user = $_SESSION["username"];
         $cart = $_SESSION["cart"];
         $iduser = $_SESSION["iduser"];
         //Consultamos información de los productos a la bbdd
         require_once("conexion.php");
         foreach ($cart as $product) {
-            # consulta -> recoge los datos de cada producto
             $sql = "select * from product where idproduct=?";
             $stm = $conn->prepare($sql);
             $stm->bindParam(1, $product->idproduct);
             $stm->execute();
-            //Comprobamos si hay algún registro - esto es un bucle
             if ($stm->rowCount() > 0) {
                 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
                 $product->name = $result[0]["name"];
@@ -26,11 +23,10 @@ if (isset($_SESSION["username"])) {
                 $product->image = $result[0]["image"];
             }
         }
-        //creamos idcart
         if (isset($_SESSION["idcart"])) {
             $idcart = $_SESSION["idcart"];
         } else {
-            //guardamos el carrito en la bd
+            //Guardamos el carrito en bbdd
             $sql = "insert into cart (iduser) value (?)";
             $stm = $conn->prepare($sql);
             $stm->bindParam(1, $iduser);
@@ -38,14 +34,13 @@ if (isset($_SESSION["username"])) {
             $idcart = $conn->lastInsertId();
             $_SESSION["idcart"] = $idcart;
         }
-        //borramos la tabla cart_detail
-        $sql = "delete from cart_detail where idcart=" . $idcart;
-        $stm = $conn->prepare(($sql));
+        //Borramos la tabla cartdetail
+        $sql="delete from cart_detail where idcart=".$idcart;
+        $stm=$conn->prepare($sql);
         $stm->execute();
         //Insertamos los productos en cart_detail
         foreach ($cart as $key => $product) {
-            //insert en la bd por cada producto que haya en el carrito
-            $sql = "insert into cart_detail (idcart, idproduct, quantity, price) values (?,?,?,?)";
+            $sql = "insert into cart_detail (idcart,idproduct,quantity,price) values (?,?,?,?)";
             $stm = $conn->prepare($sql);
             $stm->bindParam(1, $idcart);
             $stm->bindParam(2, $product->idproduct);
@@ -53,7 +48,7 @@ if (isset($_SESSION["username"])) {
             $stm->bindParam(4, $product->price);
             $stm->execute();
             $idcartdetail = $conn->lastInsertId();
-            $product->$idcartdetail = $idcartdetail;
+            $product->idcartdetail=$idcartdetail;
         }
     } else {
         header("Location: ./");
@@ -64,9 +59,8 @@ if (isset($_SESSION["username"])) {
     exit();
 }
 
-//var_dump($cart); -> ya no nos hace falta
+var_dump($cart);
 ?>
-<!--Pegamos los estilos de index.php, el html -->
 <!doctype html>
 <html lang="en">
 
@@ -111,10 +105,9 @@ if (isset($_SESSION["username"])) {
     </nav>
     <div class="container contenedor-productos row">
         <div class="shop-cart" id="cart">
-            <a class="nav-link" href="cart"><span><i class="fas fa-shopping-cart"></i><?php echo isset($cart) ? count($cart) : ''; ?> </span></a>
+            <a class="nav-link" href="cart"><span><i class="fas fa-shopping-cart"></i><span id="products_count"><?php echo isset($cart) ? count($cart) : ''; ?></span> </span></a>
         </div>
         <h3>Carrito</h3>
-        <!--tabla de bootstrap-->
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -128,10 +121,8 @@ if (isset($_SESSION["username"])) {
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <!--esto lo rellenamos nosotros, el body-->
                 <tbody>
                     <?php
-                    //para que calcule el total
                     $total = 0;
                     foreach ($cart as $key => $product) {
                         $total += $product->price * $product->quantity;
@@ -145,16 +136,21 @@ if (isset($_SESSION["username"])) {
                             <td><input class="quantity" type="number" name="" id="" value="' . $product->quantity . '"></td>
                             <td>' . $product->price . ' €/kg</td>
                             <td>' . $product->price * $product->quantity . ' €</td>
-
                             <td><span class="delete" id="idcartdetail'.$product->idcartdetail.'"><i class="fa-solid fa-x"></i></span></td>
                         </tr>';
                     }
                     echo "<tr><td class='importe_total'  colspan='5'>Total:</td><td class='euros_total' id='euros_total' colspan='2'>" . $total . " €</td></tr>"
+
                     ?>
+
+
                 </tbody>
             </table>
         </div>
+
     </div>
+
+
 
     <!-- Optional JavaScript; choose one of the two! -->
 

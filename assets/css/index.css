@@ -11,13 +11,8 @@
 .add-to-cart{
     display: flex;
 }
-/*los márgenes entre productos*/
-.product-card{
+.productcard{
     margin: 5px;
-}
-/*borde de las imágenes*/
-.card-img-top{
-    border-radius: 5px;
 }
 .contenedor-productos{
     margin: 0 auto;
@@ -40,15 +35,16 @@
     color: white;
 }
 .img-cart{
-    width: 200px;
-    height: auto;
+    width: 100px;
 }
-/* la negrita del total*/
 .importe_total{
-    text-align: right;
-    font-weight: bold;
+    text-align:right; 
+    font-weight:bold;
 }
 .euros_total{
     text-align: center;
     font-weight: bold;
+}
+#products_count{
+    border: none;
 }
