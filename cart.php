@@ -35,8 +35,8 @@ if (isset($_SESSION["username"])) {
             $_SESSION["idcart"] = $idcart;
         }
         //Borramos la tabla cartdetail
-        $sql="delete from cart_detail where idcart=".$idcart;
-        $stm=$conn->prepare($sql);
+        $sql = "delete from cart_detail where idcart=" . $idcart;
+        $stm = $conn->prepare($sql);
         $stm->execute();
         //Insertamos los productos en cart_detail
         foreach ($cart as $key => $product) {
@@ -48,7 +48,7 @@ if (isset($_SESSION["username"])) {
             $stm->bindParam(4, $product->price);
             $stm->execute();
             $idcartdetail = $conn->lastInsertId();
-            $product->idcartdetail=$idcartdetail;
+            $product->idcartdetail = $idcartdetail;
         }
     } else {
         header("Location: ./");
@@ -136,7 +136,7 @@ var_dump($cart);
                             <td><input class="quantity" type="number" name="" id="" value="' . $product->quantity . '"></td>
                             <td>' . $product->price . ' €/kg</td>
                             <td>' . $product->price * $product->quantity . ' €</td>
-                            <td><span class="delete" id="idcartdetail'.$product->idcartdetail.'"><i class="fa-solid fa-x"></i></span></td>
+                            <td><span class="delete" id="idcartdetail' . $product->idcartdetail . '"><i class="fa-solid fa-x"></i></span></td>
                         </tr>';
                     }
                     echo "<tr><td class='importe_total'  colspan='5'>Total:</td><td class='euros_total' id='euros_total' colspan='2'>" . $total . " €</td></tr>"
@@ -147,7 +147,13 @@ var_dump($cart);
                 </tbody>
             </table>
         </div>
+        <button class="btn btn-success" id=btnConfir type="button">Confirm order</button>
+        <div class="datos_envio" hidden>
 
+        <span>Delivery date:</span><input type="date" name="" id="">
+        <hr>
+        
+        </div>
     </div>
 
 
