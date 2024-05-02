@@ -8,8 +8,14 @@ if (isset($_SESSION["username"])) {
         $user = $_SESSION["username"];
         $cart = $_SESSION["cart"];
         $iduser = $_SESSION["iduser"];
-        //Consultamos información de los productos a la bbdd
+        //Establecemos la conexión con la bd
         require_once("conexion.php");
+        //Consultamos las direcciones del usuario
+        $sql = "select * from address where iduser=" . $iduser;
+        $stm = $conn->prepare($sql);
+        $stm->execute();
+        $address = $stm->fetchAll(PDO::FETCH_ASSOC);
+        //Consultamos información de los productos a la bbdd
         foreach ($cart as $product) {
             $sql = "select * from product where idproduct=?";
             $stm = $conn->prepare($sql);
@@ -150,10 +156,18 @@ var_dump($cart);
             <span>Delivery date:</span><input type="date" name="" id="">
             <hr>
             <span>Delivery Address:</span>
+            <div class="address row">
+                <div class="col-md-3 col-sm-12">
+                    <input type="checkbox" name="" id="">
+                    <h5>Calle</h5>
+                    <p><span>ZipCode</span>- <span>City</span></p>
+                    <p>País</p>
+                </div>
+            </div>
             <div>
                 <a href="add_address.php"><i class="fa-solid fa-location-dot"><i class="fa-solid fa-plus"></i>
-                </i></a>
-                
+                    </i></a>
+
             </div>
         </div>
     </div>
