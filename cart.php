@@ -157,12 +157,18 @@ var_dump($cart);
             <hr>
             <span>Delivery Address:</span>
             <div class="address row">
-                <div class="col-md-3 col-sm-12">
-                    <input type="checkbox" name="" id="">
-                    <h5>Calle</h5>
-                    <p><span>ZipCode</span>- <span>City</span></p>
-                    <p>País</p>
-                </div>
+                <?php
+                foreach ($address as $key => $dir) {
+                   echo '<div class="col-md-3 col-sm-12">
+                   <input type="checkbox" name="" id="">
+                   <h5>'.$dir["street"].'</h5>
+                   <p><span>'.$dir["zipcode"].'</span>- <span>'.$dir["city"].'</span></p>
+                   <p>'.$dir["country"].'</p>
+               </div>';
+                }
+
+                ?>
+                
             </div>
             <div>
                 <a href="add_address.php"><i class="fa-solid fa-location-dot"><i class="fa-solid fa-plus"></i>
