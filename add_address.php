@@ -24,9 +24,7 @@ if(isset($_SESSION["username"])){
          }else{
             $error="Error al crear la dirección";
          }
-
     }
-
 }else{
     header("Location: ./");
 }
@@ -87,8 +85,6 @@ if(isset($_SESSION["username"])){
             }
         ?>
     </div>
-
-
 
     <!-- Optional JavaScript; choose one of the two! -->
 

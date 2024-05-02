@@ -142,8 +142,6 @@ var_dump($cart);
                     echo "<tr><td class='importe_total'  colspan='5'>Total:</td><td class='euros_total' id='euros_total' colspan='2'>" . $total . " €</td></tr>"
 
                     ?>
-
-
                 </tbody>
             </table>
         </div>
@@ -153,8 +151,8 @@ var_dump($cart);
             <hr>
             <span>Delivery Address:</span>
             <div>
-                <a href="add_address.php"><i class="fa-solid fa-plus"></i>
-                <i class="fa-solid fa-location-dot"></i></a>
+                <a href="add_address.php"><i class="fa-solid fa-location-dot"><i class="fa-solid fa-plus"></i>
+                </i></a>
                 
             </div>
         </div>
