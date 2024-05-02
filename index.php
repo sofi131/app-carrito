@@ -13,30 +13,39 @@ $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
 if (isset($_SESSION["cart"])) {
     $cart = $_SESSION["cart"];
 }
+
 if (isset($_SESSION["username"])) {
+
     //comprobaria si hay carrito en la bbdd
     $user = $_SESSION["username"];
-    //para saber si un usuario tiene sesión
     $iduser = $_SESSION["iduser"];
-    //--------------------------------------CONSULTA--------------------------
-    if(! isset($cart)){
-        $sql="select * from cart_detail where 
-        idcart=(select idcart from cart where iduser=? 
-        order by date desc limit 1)";
-        $stm=$conn->prepare($sql);
-        $stm->bindParam(1,$iduser);
-        $stm->execute();
-        $result=$stm->fetchAll(PDO::FETCH_ASSOC);
-        $cart=array();
-        foreach ($result as $key => $p) {
-            $product=new Product($p["idproduct"],$p["quantity"]);
-            array_push($cart,$product);
+    if (!isset($cart) || count($cart) == 0) {
+        try {
+            $sql = "select * from cart_detail where idcart=(select idcart from cart where iduser=? order by date desc limit 1)";
+            $stm = $conn->prepare($sql);
+            $stm->bindParam(1, $iduser);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $cart = array();
+            foreach ($result as $key => $p) {
+                $_SESSION["idcart"] = $p["idcart"];
+                $product = new Product($p["idproduct"], $p["quantity"]);
+                array_push($cart, $product); 
+            }
+
+            $_SESSION["cart"] = $cart;
+            if(isset($_SESSION["idcart"])){
+                $idcart=$_SESSION["idcart"];
+            }
+
+            //$_SESSION["idcart"]=$result[0]["idcart"];
+        } catch (Exception $e) {
+            var_dump($e->getMessage());
+            exit();
         }
-        $_SESSION["cart"]=$cart;
-        $_SESSION["idcart"]=$result[0]["idcart"];
     }
 }
-
+$idcart=isset($_SESSION["idcart"])?$_SESSION["idcart"]:"";
 
 ?>
 <!doctype html>
@@ -84,14 +93,14 @@ if (isset($_SESSION["username"])) {
     <div class="container contenedor-productos row">
         <div class="shop-cart" id="cart">
             <a class="nav-link" href="cart"><span><i class="fas fa-shopping-cart"></i><?php echo isset($cart) ? count($cart) : ''; ?> </span></a>
-            <?php echo isset($_SESSION["idcart"]) ? $_SESSION["idcart"] : "nada" ?>
+           
         </div>
         <h3>Productos</h3>
 
         <?php
         // Mostrar los resultados
         foreach ($resultados as $product) {
-            echo '<div class="card productcard col-md-3 col-sm-12" ">
+            echo '<div class="card product-card col-md-3 col-sm-12" ">
         <img src="assets/product/' . $product["image"] . '" class="card-img-top" alt="...">
         <div class="card-body">
         <div class="producto-detalle">

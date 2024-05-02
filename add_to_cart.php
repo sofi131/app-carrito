@@ -36,3 +36,5 @@ if (isset($_GET["idproduct"])) {
 }
 header("Location: ./");
 exit();
+
+//aquí hay cosas nuevas

@@ -11,7 +11,7 @@
 .add-to-cart{
     display: flex;
 }
-
+/*los márgenes entre productos*/
 .product-card{
     margin: 5px;
 }
